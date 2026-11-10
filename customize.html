@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customize Your Surprise 🎀</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:20px;background:#fff0f7;font-family:Arial,sans-serif;color:#74465e}
+.editor{max-width:650px;margin:20px auto;background:#fff;
+padding:25px;border-radius:25px;box-shadow:0 10px 40px #e9a8c455}
+h1{text-align:center;color:#df6499}
+h2{font-size:19px;color:#cf6090;margin-top:28px}
+p{color:#98758a;line-height:1.6}
+label{display:block;margin:15px 0 7px;font-weight:bold}
+input,textarea{
+width:100%;padding:13px;border:1px solid #efc6d9;
+border-radius:12px;font-size:15px;background:#fffafd;
+color:#74465e
+}
+textarea{min-height:90px;resize:vertical}
+.photo-box{padding:15px;border:1px dashed #e68db4;
+border-radius:15px;margin:12px 0}
+.preview{width:100%;max-height:220px;object-fit:cover;
+border-radius:12px;margin-top:10px;display:none}
+button{width:100%;padding:16px;border:0;border-radius:30px;
+background:linear-gradient(90deg,#f18ab7,#d95191);
+color:white;font-size:16px;font-weight:bold;margin-top:20px}
+.note{font-size:13px;background:#fff0f7;padding:12px;border-radius:12px}
+</style>
+</head>
+<body>
+
+<div class="editor">
+<h1>🎀 Customize Your Surprise</h1>
+<p>Make this birthday experience special with your own photos and heartfelt words.</p>
+
+<form id="customForm">
+
+<h2>💗 Birthday Details</h2>
+
+<label>Birthday Girl's Name</label>
+<input id="girlName" placeholder="Enter her name">
+
+<label>Birthday Date</label>
+<input id="birthdayDate" type="date">
+
+<h2>📸 Your Memories</h2>
+
+<div class="photo-box">
+<label>Memory Photo 1</label>
+<input type="file" accept="image/*" id="photo1">
+<img class="preview" id="preview1">
+<label>Photo Caption</label>
+<input id="caption1" placeholder="Write a sweet caption">
+</div>
+
+<div class="photo-box">
+<label>Memory Photo 2</label>
+<input type="file" accept="image/*" id="photo2">
+<img class="preview" id="preview2">
+<label>Photo Caption</label>
+<input id="caption2" placeholder="Write a sweet caption">
+</div>
+
+<div class="photo-box">
+<label>Memory Photo 3</label>
+<input type="file" accept="image/*" id="photo3">
+<img class="preview" id="preview3">
+<label>Photo Caption</label>
+<input id="caption3" placeholder="Write a sweet caption">
+</div>
+
+<div class="photo-box">
+<label>Memory Photo 4</label>
+<input type="file" accept="image/*" id="photo4">
+<img class="preview" id="preview4">
+<label>Photo Caption</label>
+<input id="caption4" placeholder="Write a sweet caption">
+</div>
+
+<h2>💌 Personal Messages</h2>
+
+<label>Welcome Message</label>
+<textarea id="welcomeMessage" placeholder="Write your welcome message..."></textarea>
+
+<label>About Her</label>
+<textarea id="aboutMessage" placeholder="Tell her what makes her special..."></textarea>
+
+<label>Birthday Wishes</label>
+<textarea id="wishesMessage" placeholder="Write your birthday wishes..."></textarea>
+
+<label>Personal Letter</label>
+<textarea id="letterMessage" placeholder="Write everything in your heart..."></textarea>
+
+<h2>🎁 Special Gift</h2>
+
+<label>Gift Surprise Message</label>
+<textarea id="giftMessage" placeholder="Write your special surprise..."></textarea>
+
+<button type="submit">Save My Changes 💗</button>
+</form>
+
+<p class="note">
+Your text changes will be saved as a draft in this browser.
+Photo previews are temporary. Online saving and sharing across devices will be connected in the next step.
+</p>
+</div>
+
+<script>
+const fields = [
+"girlName","birthdayDate","caption1","caption2",
+"caption3","caption4","welcomeMessage","aboutMessage",
+"wishesMessage","letterMessage","giftMessage"
+];
+
+fields.forEach(id => {
+const saved = localStorage.getItem("birthday_" + id);
+if(saved !== null) document.getElementById(id).value = saved;
+});
+
+for(let i=1;i<=4;i++){
+const input=document.getElementById("photo"+i);
+const preview=document.getElementById("preview"+i);
+
+input.addEventListener("change",()=>{
+const file=input.files[0];
+if(!file)return;
+if(!file.type.startsWith("image/")){
+alert("Please select an image.");
+return;
+}
+const reader=new FileReader();
+reader.onload=()=>{
+preview.src=reader.result;
+preview.style.display="block";
+};
+reader.readAsDataURL(file);
+});
+}
+
+document.getElementById("customForm").addEventListener("submit",e=>{
+e.preventDefault();
+fields.forEach(id=>{
+localStorage.setItem(
+"birthday_"+id,
+document.getElementById(id).value
+);
+});
+alert("Your text draft has been saved! 🎀");
+});
+</script>
+
+</body>
+  </html>
+  
