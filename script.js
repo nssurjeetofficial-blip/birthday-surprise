@@ -189,5 +189,74 @@ document.addEventListener("DOMContentLoaded", () => {
 
     dateInput.setAttribute("min", localToday);
 
+    // =================================
+    // 7. INTERACTIVE GIFT SURPRISE
+    // =================================
+
+    const giftButton = document.getElementById("giftButton");
+    const giftMessage = document.getElementById("giftMessage");
+
+    if (giftButton && giftMessage) {
+
+        giftButton.addEventListener("click", function() {
+
+            giftButton.style.animation = "none";
+
+            giftButton.style.transform = "scale(1.4) rotate(15deg)";
+
+            giftButton.textContent = "🎉";
+
+            setTimeout(() => {
+
+                giftButton.style.display = "none";
+
+                giftMessage.hidden = false;
+
+                giftMessage.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+                // Create celebration hearts
+                for (let i = 0; i < 18; i++) {
+
+                    const heart = document.createElement("span");
+
+                    heart.textContent = ["💗", "💕", "✨", "🌸"][
+                        Math.floor(Math.random() * 4)
+                    ];
+
+                    heart.style.position = "fixed";
+                    heart.style.left = Math.random() * 90 + 5 + "%";
+                    heart.style.top = "75%";
+                    heart.style.fontSize = "25px";
+                    heart.style.pointerEvents = "none";
+                    heart.style.zIndex = "9999";
+
+                    document.body.appendChild(heart);
+
+                    heart.animate([
+                        {
+                            transform: "translateY(0) scale(0.5)",
+                            opacity: 1
+                        },
+                        {
+                            transform: `translateY(-${150 + Math.random() * 250}px) scale(1.4)`,
+                            opacity: 0
+                        }
+                    ], {
+                        duration: 1800,
+                        easing: "ease-out"
+                    });
+
+                    setTimeout(() => heart.remove(), 1900);
+                }
+
+            }, 450);
+
+        });
+
+    }
+    
 });
               
