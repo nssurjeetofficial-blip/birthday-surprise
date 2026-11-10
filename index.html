@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fff0f6">
+
+    <title>A Birthday Surprise For You 🎀</title>
+
+    <meta name="description" content="A little world of love, happiness and birthday surprises.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Sacramento&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- BACKGROUND DECORATIONS -->
+    <div class="background-hearts" id="backgroundHearts"></div>
+
+    <!-- PAGE 0: BIRTHDAY SETUP -->
+    <section class="page active" id="setupPage">
+
+        <div class="setup-card">
+
+            <div class="top-decoration">🎀 ✨ 🎀</div>
+
+            <p class="small-heading">A SPECIAL SURPRISE IS WAITING</p>
+
+            <h1>Let's Create<br>
+                <span>Some Magic!</span>
+            </h1>
+
+            <p class="description">
+                Create a beautiful birthday surprise
+                for someone truly special.
+            </p>
+
+            <form id="birthdayForm">
+
+                <label for="girlName">Birthday Girl's Name</label>
+
+                <input
+                    type="text"
+                    id="girlName"
+                    placeholder="Enter her beautiful name..."
+                    required
+                    maxlength="30"
+                >
+
+                <label for="birthdayDate">Her Birthday Date</label>
+
+                <input
+                    type="date"
+                    id="birthdayDate"
+                    required
+                >
+
+                <button type="submit" class="main-btn">
+                    Create Her Surprise 💗
+                </button>
+
+            </form>
+
+            <p class="bottom-note">
+                Made with love, just for her ♡
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- PAGE 1: ANIMATED CAKE -->
+    <section class="page" id="cakePage">
+
+        <div class="content-card">
+
+            <p class="small-heading">SOMETHING MAGICAL IS COMING</p>
+
+            <h1>Hey, <span class="girl-name"></span>! 🎀</h1>
+
+            <div class="cake-container">
+                <div class="cake-emoji">🎂</div>
+                <div class="cake-sparkles">✨ 💗 ✨</div>
+            </div>
+
+            <h2>A Little Surprise For You</h2>
+
+            <p>
+                Someone has prepared something
+                special just for you.
+            </p>
+
+            <button class="main-btn" onclick="showPage('countdownPage')">
+                Let's Discover 💕
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- PAGE 2: COUNTDOWN -->
+    <section class="page" id="countdownPage">
+
+        <div class="content-card">
+
+            <div class="floating-icon">💗</div>
+
+            <p class="small-heading">THE WAIT IS ALMOST OVER</p>
+
+            <h1>Counting Down<br>
+                <span>To Your Day!</span>
+            </h1>
+
+            <div class="countdown" id="countdown">
+
+                <div class="time-box">
+                    <span id="days">00</span>
+                    <small>Days</small>
+                </div>
+
+                <div class="time-box">
+                    <span id="hours">00</span>
+                    <small>Hours</small>
+                </div>
+
+                <div class="time-box">
+                    <span id="minutes">00</span>
+                    <small>Minutes</small>
+                </div>
+
+                <div class="time-box">
+                    <span id="seconds">00</span>
+                    <small>Seconds</small>
+                </div>
+
+            </div>
+
+            <p>Your special day deserves all the magic! ✨</p>
+
+            <button class="main-btn" onclick="showPage('welcomePage')">
+                A Surprise Awaits 💌
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- PAGE 3: WELCOME -->
+    <section class="page" id="welcomePage">
+
+        <div class="content-card">
+
+            <div class="big-emoji">💌</div>
+
+            <p class="small-heading">A LITTLE MESSAGE FOR YOU</p>
+
+            <h1>Welcome To Your<br>
+                <span>Little World!</span>
+            </h1>
+
+            <p>
+                Today, this little corner of the internet
+                belongs to you.
+                Every little detail has been made
+                to bring a smile to your face.
+            </p>
+
+            <button class="main-btn" onclick="showPage('aboutPage')">
+                Read My Heart 💗
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- MORE PAGES WILL BE ADDED IN THE NEXT STEPS -->
+
+
+    <!-- JAVASCRIPT -->
+    <script src="js/script.js"></script>
+
+</body>
+</html>
