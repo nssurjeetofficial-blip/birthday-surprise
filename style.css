@@ -384,3 +384,115 @@ h2 {
         scroll-behavior: auto !important;
     }
       }
+
+/* MEMORY SCRAPBOOK */
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 25px 0;
+}
+
+.memory-item {
+    min-height: 115px;
+    padding: 18px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 32px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #fff0f6, #f9eaff);
+    border: 1px solid #f5d4e3;
+    box-shadow: 0 5px 15px rgba(220,100,150,.08);
+}
+
+.memory-item small {
+    font-size: 11px;
+    color: #936b7e;
+    font-weight: 600;
+}
+
+/* REASONS LIST */
+
+.reason-list {
+    margin: 24px 0;
+    display: grid;
+    gap: 10px;
+    text-align: left;
+}
+
+.reason-list p {
+    background: #fff2f7;
+    border-radius: 13px;
+    padding: 12px;
+    font-size: 13px;
+    border: 1px solid #f8dce8;
+}
+
+/* LETTER */
+
+.letter-box {
+    text-align: left;
+    padding: 23px;
+    background: #fff7fa;
+    border: 1px dashed #eaa3bf;
+    border-radius: 18px;
+    line-height: 1.9;
+}
+
+.letter-box p {
+    font-size: 13px;
+    margin-bottom: 14px;
+}
+
+.letter-box .signature {
+    font-family: 'Sacramento', cursive;
+    font-size: 25px;
+    color: #d85d91;
+    text-align: right;
+}
+
+/* GIFT */
+
+.gift-container {
+    padding: 25px;
+}
+
+.gift-box {
+    border: none;
+    background: none;
+    font-size: 105px;
+    cursor: pointer;
+    filter: drop-shadow(0 10px 15px rgba(220,100,150,.2));
+    animation: giftBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes giftBounce {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-14px) rotate(5deg); }
+}
+
+.gift-message {
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 20px;
+    background: #fff0f6;
+    animation: pageEnter .7s ease;
+}
+
+.gift-message h2 {
+    margin: 10px;
+}
+
+.gift-message p {
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+[hidden] {
+    display: none !important;
+}
+
