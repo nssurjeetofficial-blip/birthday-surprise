@@ -37,6 +37,23 @@ color:white;font-size:16px;font-weight:bold;margin-top:20px}
 <h1>🎀 Customize Your Surprise</h1>
 <p>Make this birthday experience special with your own photos and heartfelt words.</p>
 
+<div id="authPanel" style="background:#fff0f7;padding:20px;border-radius:18px;margin:20px 0;">
+  <h2>🔐 Client Login</h2>
+  <p>Create an account or login to customize your surprise.</p>
+
+  <label>Email Address</label>
+  <input type="email" id="clientEmail" placeholder="Enter your email" required>
+
+  <label>Password</label>
+  <input type="password" id="clientPassword" placeholder="Minimum 8 characters" minlength="8" required>
+
+  <button type="button" id="signupBtn">Create Account 💗</button>
+  <button type="button" id="loginBtn">Login 🎀</button>
+
+  <p id="authMessage" aria-live="polite"></p>
+  <button type="button" id="logoutBtn" hidden>Logout</button>
+</div>
+  
 <form id="customForm">
 
 <h2>💗 Birthday Details</h2>
@@ -172,6 +189,74 @@ alert("Your text draft has been saved! 🎀");
 });
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const client = window.supabaseClient;
+  const panel = document.getElementById("authPanel");
+  const form = document.getElementById("customForm");
+  const message = document.getElementById("authMessage");
+  const logout = document.getElementById("logoutBtn");
+
+  form.hidden = true;
+
+  function showSession(session) {
+    const loggedIn = !!session;
+    form.hidden = !loggedIn;
+    logout.hidden = !loggedIn;
+    message.textContent = loggedIn
+      ? "Welcome! Your account is connected. 💗"
+      : "Please login or create your account.";
+  }
+
+  document.getElementById("signupBtn").onclick = async () => {
+    const email = document.getElementById("clientEmail").value.trim();
+    const password = document.getElementById("clientPassword").value;
+
+    if (!email || password.length < 8) {
+      message.textContent = "Enter a valid email and password of at least 8 characters.";
+      return;
+    }
+
+    const { data, error } = await client.auth.signUp({
+      email,
+      password
+    });
+
+    message.textContent = error
+      ? error.message
+      : data.session
+        ? "Account created! You are logged in. 💗"
+        : "Account created! Please verify your email, then login. 💌";
+  };
+
+  document.getElementById("loginBtn").onclick = async () => {
+    const email = document.getElementById("clientEmail").value.trim();
+    const password = document.getElementById("clientPassword").value;
+
+    const { error } = await client.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    message.textContent = error
+      ? error.message
+      : "Login successful! 🎀";
+  };
+
+  logout.onclick = async () => {
+    const { error } = await client.auth.signOut();
+    message.textContent = error ? error.message : "Logged out successfully.";
+  };
+
+  const { data } = await client.auth.getSession();
+  showSession(data.session);
+
+  client.auth.onAuthStateChange((_event, session) => {
+    showSession(session);
+  });
+});
+</script>
+  
 </body>
   </html>
   
