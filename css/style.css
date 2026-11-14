@@ -496,3 +496,15 @@ h2 {
     display: none !important;
 }
 
+.memory-caption {
+    display: block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    color: #a94f7b;
+    background: #fff0f7;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
