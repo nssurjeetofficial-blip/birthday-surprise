@@ -6,52 +6,147 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fff0f7">
 <title>Customize Your Surprise 🎀</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;padding:18px;background:#fff0f7;
- font-family:'DM Sans',sans-serif;color:#75445f
+  margin:0;
+  padding:18px;
+  background:#fff0f7;
+  font-family:'DM Sans',sans-serif;
+  color:#75445f;
 }
+
 .editor{
- max-width:650px;margin:20px auto;background:white;
- padding:23px;border-radius:25px;
- box-shadow:0 10px 40px #e9a8c455
+  max-width:650px;
+  margin:20px auto;
+  background:white;
+  padding:23px;
+  border-radius:25px;
+  box-shadow:0 10px 40px #e9a8c455;
 }
+
 h1,h2{text-align:center;color:#d85d96}
 h1{font-family:'Playfair Display',serif}
 h2{font-size:20px;margin-top:30px}
 p{line-height:1.6;color:#98758a}
-label{display:block;margin:15px 0 7px;font-weight:600}
+
+label{
+  display:block;
+  margin:15px 0 7px;
+  font-weight:600;
+}
+
 input,textarea{
- width:100%;padding:13px;border:1px solid #efc6d9;
- border-radius:12px;font-size:15px;
- background:#fffafd;color:#75445f
+  width:100%;
+  padding:13px;
+  border:1px solid #efc6d9;
+  border-radius:12px;
+  font-size:15px;
+  background:#fffafd;
+  color:#75445f;
 }
+
 textarea{min-height:100px;resize:vertical}
+
 button{
- width:100%;padding:15px;border:0;border-radius:30px;
- background:linear-gradient(90deg,#f18ab7,#d95191);
- color:white;font-size:15px;font-weight:700;
- margin-top:14px;cursor:pointer
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:30px;
+  background:linear-gradient(90deg,#f18ab7,#d95191);
+  color:white;
+  font-size:15px;
+  font-weight:700;
+  margin-top:14px;
+  cursor:pointer;
 }
+
 button:disabled{opacity:.6}
+
 .photo-box{
- padding:15px;border:1px dashed #e68db4;
- border-radius:16px;margin:14px 0
+  padding:15px;
+  border:1px dashed #e68db4;
+  border-radius:16px;
+  margin:14px 0;
 }
+
 .preview{
- width:100%;max-height:230px;object-fit:cover;
- border-radius:12px;margin-top:12px;display:none
+  width:100%;
+  max-height:230px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-top:12px;
+  display:none;
 }
+
 #status,#authMessage{
- text-align:center;padding:12px;border-radius:12px;
- background:#fff0f7;margin:14px 0;overflow-wrap:anywhere
+  text-align:center;
+  padding:12px;
+  border-radius:12px;
+  background:#fff0f7;
+  margin:14px 0;
+  overflow-wrap:anywhere;
 }
-.note{font-size:13px;background:#fff0f7;padding:12px;border-radius:12px}
+
+.note{
+  font-size:13px;
+  background:#fff0f7;
+  padding:12px;
+  border-radius:12px;
+}
+
 [hidden]{display:none!important}
+
+/* PREMIUM PUBLISH SECTION */
+
+.publish-section{
+  margin-top:35px;
+  padding:24px 17px;
+  text-align:center;
+  border-radius:22px;
+  background:linear-gradient(145deg,#fff0f7,#ffe0ed);
+  border:1px solid #f7c5dc;
+}
+
+.publish-section h2{
+  margin-top:0;
+  font-family:'Playfair Display',serif;
+}
+
+.publish-section p{
+  font-size:14px;
+  margin-bottom:18px;
+}
+
+.publish-link{
+  display:block;
+  width:100%;
+  padding:16px 12px;
+  border-radius:40px;
+  text-decoration:none;
+  color:white;
+  font-size:16px;
+  font-weight:700;
+  background:linear-gradient(100deg,#f28ab8,#d94d91,#c94d9c);
+  box-shadow:0 8px 22px #df79aa66;
+  transition:transform .25s,box-shadow .25s;
+}
+
+.publish-link:active{
+  transform:scale(.97);
+  box-shadow:0 4px 12px #df79aa55;
+}
+
+.publish-small{
+  font-size:12px;
+  margin-top:12px;
+  color:#a77a91;
+}
 </style>
 </head>
 
@@ -59,6 +154,7 @@ button:disabled{opacity:.6}
 <div class="editor">
 
 <h1>🎀 Customize Your Surprise</h1>
+
 <p style="text-align:center">
 Create a beautiful birthday experience with your own photos and heartfelt messages.
 </p>
@@ -126,6 +222,25 @@ Please create an account or login.
 Photos must be JPG, PNG or WEBP and under 5 MB each.
 Your changes are saved to your private online account.
 </p>
+
+<!-- NEW PUBLISH BUTTON -->
+
+<div class="publish-section">
+  <h2>✨ Your Surprise Is Almost Ready!</h2>
+
+  <p>
+    Everything looking beautiful?
+    Publish your birthday surprise and get your special shareable link! 💌
+  </p>
+
+  <a href="publish.html" class="publish-link">
+    🎀 Publish & Get Your Link →
+  </a>
+
+  <div class="publish-small">
+    💗 Save your changes before publishing.
+  </div>
+</div>
 
 </form>
 </div>
@@ -231,6 +346,7 @@ async function loadBirthdayData(user) {
 
   for(let i=1;i<=4;i++) {
     const caption = data.captions?.["caption"+i];
+
     if(caption) {
       document.getElementById("caption"+i).value = caption;
     }
@@ -442,8 +558,6 @@ form.addEventListener("submit", async event => {
       .upsert(birthdayData,{onConflict:"slug"});
 
     if(saveError) throw saveError;
-
-    // CLEAR FILE INPUTS AFTER SUCCESS
 
     for(let i=1;i<=4;i++) {
       document.getElementById("photo"+i).value = "";
