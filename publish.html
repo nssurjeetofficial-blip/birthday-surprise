@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publish Birthday Surprise</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg,#ffe0ed,#eee2ff,#fff3e5);
+      color: #58384c;
+    }
+    .card {
+      width: 100%;
+      max-width: 430px;
+      padding: 28px 22px;
+      border-radius: 24px;
+      background: #ffffffd9;
+      box-shadow: 0 12px 40px #a65b8130;
+      text-align: center;
+    }
+    h1 { color: #d65391; }
+    p { line-height: 1.6; }
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 12px;
+      border: 0;
+      border-radius: 30px;
+      background: #e96ba7;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    button:disabled { opacity: .5; }
+    #result {
+      margin-top: 18px;
+      overflow-wrap: anywhere;
+      font-size: 14px;
+    }
+    a { color: #bd4381; }
+    .secondary { background: #9276b9; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>🎀 Birthday Page</h1>
+    <p id="status">Checking your account...</p>
+
+    <button id="publishBtn" disabled>
+      Publish Birthday Page 💗
+    </button>
+
+    <button id="unpublishBtn" class="secondary" disabled>
+      Unpublish Page
+    </button>
+
+    <div id="result"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+
+  <script>
+    const statusBox = document.getElementById("status");
+    const resultBox = document.getElementById("result");
+    const publishBtn = document.getElementById("publishBtn");
+    const unpublishBtn = document.getElementById("unpublishBtn");
+
+    let currentUser = null;
+    let birthdayData = null;
+
+    async function init() {
+      const client = window.supabaseClient;
+
+      if (!client) {
+        statusBox.textContent = "Supabase connection failed.";
+        return;
+      }
+
+      const { data: { session }, error } =
+        await client.auth.getSession();
+
+      if (error || !session) {
+        statusBox.textContent =
+          "Please login first on customize.html, then open this page.";
+        return;
+      }
+
+      currentUser = session.user;
+
+      const { data, error: fetchError } = await client
+        .from("birthday_surprises")
+        .select("share_token,is_published")
+        .eq("user_id", currentUser.id)
+        .maybeSingle();
+
+      if (fetchError) {
+        statusBox.textContent = fetchError.message;
+        return;
+      }
+
+      if (!data) {
+        statusBox.textContent =
+          "Please save your birthday details in customize.html first.";
+        return;
+      }
+
+      birthdayData = data;
+      statusBox.textContent = data.is_published
+        ? "Your birthday page is published! 🎉"
+        : "Your birthday page is ready to publish.";
+
+      publishBtn.disabled = false;
+      unpublishBtn.disabled = false;
+
+      if (data.is_published) showLink();
+    }
+
+    function showLink() {
+      const link = new URL("index.html", window.location.href);
+      link.searchParams.set("share", birthdayData.share_token);
+
+      resultBox.innerHTML = "";
+
+      const text = document.createElement("p");
+      text.textContent = "Your girlfriend's birthday link:";
+
+      const anchor = document.createElement("a");
+      anchor.href = link.href;
+      anchor.textContent = link.href;
+      anchor.target = "_blank";
+      anchor.rel = "noopener";
+
+      const copyBtn = document.createElement("button");
+      copyBtn.textContent = "Copy Birthday Link";
+      copyBtn.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(link.href);
+          copyBtn.textContent = "Copied! 💗";
+        } catch {
+          copyBtn.textContent = "Please copy the link above.";
+        }
+      };
+
+      resultBox.append(text, anchor, copyBtn);
+    }
+
+    publishBtn.addEventListener("click", async () => {
+      publishBtn.disabled = true;
+      statusBox.textContent = "Publishing...";
+
+      const client = window.supabaseClient;
+      let token = birthdayData.share_token;
+
+      if (!token) {
+        token = crypto.randomUUID();
+      }
+
+      const { error } = await client
+        .from("birthday_surprises")
+        .update({
+          share_token: token,
+          is_published: true
+        })
+        .eq("user_id", currentUser.id);
+
+      publishBtn.disabled = false;
+
+      if (error) {
+        statusBox.textContent = "Publish failed: " + error.message;
+        return;
+      }
+
+      birthdayData.share_token = token;
+      birthdayData.is_published = true;
+
+      statusBox.textContent = "Published successfully! 🎉";
+      showLink();
+    });
+
+    unpublishBtn.addEventListener("click", async () => {
+      const { error } = await window.supabaseClient
+        .from("birthday_surprises")
+        .update({ is_published: false })
+        .eq("user_id", currentUser.id);
+
+      if (error) {
+        statusBox.textContent = "Error: " + error.message;
+        return;
+      }
+
+      birthdayData.is_published = false;
+      statusBox.textContent = "Birthday page unpublished.";
+      resultBox.textContent = "";
+    });
+
+    init();
+  </script>
+</body>
+</html>
