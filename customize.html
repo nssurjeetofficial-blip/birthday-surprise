@@ -109,6 +109,25 @@ Photo previews are temporary. Online saving and sharing across devices will be c
 </p>
 </div>
 
+<div id="connectionStatus" style="text-align:center;padding:12px;border-radius:12px;background:#fff0f7;color:#9b4773;">
+  Connecting to Supabase...
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<script>
+  const status = document.getElementById("connectionStatus");
+
+  if (window.supabaseClient) {
+    status.textContent = "Supabase connected successfully! 💗";
+    status.style.color = "green";
+  } else {
+    status.textContent = "Connection failed. Please check settings.";
+    status.style.color = "red";
+  }
+</script>
+  
 <script>
 const fields = [
 "girlName","birthdayDate","caption1","caption2",
