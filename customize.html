@@ -190,22 +190,62 @@ alert("Your text draft has been saved! 🎀");
 </script>
 
 <script>
+
 document.addEventListener("DOMContentLoaded", async () => {
   const client = window.supabaseClient;
-  const panel = document.getElementById("authPanel");
   const form = document.getElementById("customForm");
   const message = document.getElementById("authMessage");
   const logout = document.getElementById("logoutBtn");
 
   form.hidden = true;
 
-  function showSession(session) {
+  async function loadBirthdayData(user) {
+    const { data, error } = await client
+      .from("birthday_surprises")
+      .select("*")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (error) {
+      message.textContent = "Could not load saved details: " + error.message;
+      return;
+    }
+
+    if (!data) return;
+
+    const values = {
+      girlName: data.birthday_name,
+      birthdayDate: data.birthday_date,
+      welcomeMessage: data.welcome_message,
+      aboutMessage: data.about_message,
+      wishesMessage: data.wishes_message,
+      letterMessage: data.personal_letter,
+      giftMessage: data.gift_message,
+      caption1: data.captions?.caption1,
+      caption2: data.captions?.caption2,
+      caption3: data.captions?.caption3,
+      caption4: data.captions?.caption4
+    };
+
+    Object.entries(values).forEach(([id, value]) => {
+      const field = document.getElementById(id);
+      if (field && value) field.value = value;
+    });
+
+    message.textContent = "Your saved details are loaded! 💗";
+  }
+
+  async function updateSession(session) {
     const loggedIn = !!session;
+
     form.hidden = !loggedIn;
     logout.hidden = !loggedIn;
-    message.textContent = loggedIn
-      ? "Welcome! Your account is connected. 💗"
-      : "Please login or create your account.";
+
+    if (session) {
+      await loadBirthdayData(session.user);
+    } else {
+      message.textContent = "Please login or create your account.";
+    }
   }
 
   document.getElementById("signupBtn").onclick = async () => {
@@ -225,36 +265,97 @@ document.addEventListener("DOMContentLoaded", async () => {
     message.textContent = error
       ? error.message
       : data.session
-        ? "Account created! You are logged in. 💗"
-        : "Account created! Please verify your email, then login. 💌";
+        ? "Account created successfully! 💗"
+        : "Account created! Verify your email, then login. 💌";
+
+    if (data.session) await updateSession(data.session);
   };
 
   document.getElementById("loginBtn").onclick = async () => {
     const email = document.getElementById("clientEmail").value.trim();
     const password = document.getElementById("clientPassword").value;
 
-    const { error } = await client.auth.signInWithPassword({
+    const { data, error } = await client.auth.signInWithPassword({
       email,
       password
     });
 
-    message.textContent = error
-      ? error.message
-      : "Login successful! 🎀";
+    if (error) {
+      message.textContent = error.message;
+      return;
+    }
+
+    await updateSession(data.session);
   };
 
   logout.onclick = async () => {
     const { error } = await client.auth.signOut();
-    message.textContent = error ? error.message : "Logged out successfully.";
+    message.textContent = error
+      ? error.message
+      : "Logged out successfully.";
   };
 
-  const { data } = await client.auth.getSession();
-  showSession(data.session);
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-  client.auth.onAuthStateChange((_event, session) => {
-    showSession(session);
+    const { data: sessionData } = await client.auth.getSession();
+    const user = sessionData.session?.user;
+
+    if (!user) {
+      message.textContent = "Please login first.";
+      return;
+    }
+
+    const getValue = id =>
+      document.getElementById(id).value.trim();
+
+    const birthdayDate = getValue("birthdayDate");
+
+    if (!getValue("girlName") || !birthdayDate) {
+      message.textContent = "Please enter the birthday name and date.";
+      return;
+    }
+
+    const birthdayData = {
+      slug: "client-" + user.id,
+      user_id: user.id,
+      birthday_name: getValue("girlName"),
+      birthday_date: birthdayDate,
+      welcome_message: getValue("welcomeMessage"),
+      about_message: getValue("aboutMessage"),
+      wishes_message: getValue("wishesMessage"),
+      personal_letter: getValue("letterMessage"),
+      gift_message: getValue("giftMessage"),
+      captions: {
+        caption1: getValue("caption1"),
+        caption2: getValue("caption2"),
+        caption3: getValue("caption3"),
+        caption4: getValue("caption4")
+      },
+      updated_at: new Date().toISOString()
+    };
+
+    message.textContent = "Saving your changes... 💗";
+
+    const { error } = await client
+      .from("birthday_surprises")
+      .upsert(birthdayData, { onConflict: "slug" });
+
+    message.textContent = error
+      ? "Save failed: " + error.message
+      : "All your changes saved online! 🎀";
+  });
+
+  const { data } = await client.auth.getSession();
+  await updateSession(data.session);
+
+  client.auth.onAuthStateChange((event, session) => {
+    if (event === "SIGNED_IN" || event === "SIGNED_OUT") {
+      updateSession(session);
+    }
   });
 });
+        
 </script>
   
 </body>
