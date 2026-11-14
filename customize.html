@@ -4,99 +4,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fff0f7">
 <title>Customize Your Surprise 🎀</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:20px;background:#fff0f7;font-family:Arial,sans-serif;color:#74465e}
-.editor{max-width:650px;margin:20px auto;background:#fff;
-padding:25px;border-radius:25px;box-shadow:0 10px 40px #e9a8c455}
-h1{text-align:center;color:#df6499}
-h2{font-size:19px;color:#cf6090;margin-top:28px}
-p{color:#98758a;line-height:1.6}
-label{display:block;margin:15px 0 7px;font-weight:bold}
-input,textarea{
-width:100%;padding:13px;border:1px solid #efc6d9;
-border-radius:12px;font-size:15px;background:#fffafd;
-color:#74465e
+body{
+ margin:0;padding:18px;background:#fff0f7;
+ font-family:'DM Sans',sans-serif;color:#75445f
 }
-textarea{min-height:90px;resize:vertical}
-.photo-box{padding:15px;border:1px dashed #e68db4;
-border-radius:15px;margin:12px 0}
-.preview{width:100%;max-height:220px;object-fit:cover;
-border-radius:12px;margin-top:10px;display:none}
-button{width:100%;padding:16px;border:0;border-radius:30px;
-background:linear-gradient(90deg,#f18ab7,#d95191);
-color:white;font-size:16px;font-weight:bold;margin-top:20px}
+.editor{
+ max-width:650px;margin:20px auto;background:white;
+ padding:23px;border-radius:25px;
+ box-shadow:0 10px 40px #e9a8c455
+}
+h1,h2{text-align:center;color:#d85d96}
+h1{font-family:'Playfair Display',serif}
+h2{font-size:20px;margin-top:30px}
+p{line-height:1.6;color:#98758a}
+label{display:block;margin:15px 0 7px;font-weight:600}
+input,textarea{
+ width:100%;padding:13px;border:1px solid #efc6d9;
+ border-radius:12px;font-size:15px;
+ background:#fffafd;color:#75445f
+}
+textarea{min-height:100px;resize:vertical}
+button{
+ width:100%;padding:15px;border:0;border-radius:30px;
+ background:linear-gradient(90deg,#f18ab7,#d95191);
+ color:white;font-size:15px;font-weight:700;
+ margin-top:14px;cursor:pointer
+}
+button:disabled{opacity:.6}
+.photo-box{
+ padding:15px;border:1px dashed #e68db4;
+ border-radius:16px;margin:14px 0
+}
+.preview{
+ width:100%;max-height:230px;object-fit:cover;
+ border-radius:12px;margin-top:12px;display:none
+}
+#status,#authMessage{
+ text-align:center;padding:12px;border-radius:12px;
+ background:#fff0f7;margin:14px 0;overflow-wrap:anywhere
+}
 .note{font-size:13px;background:#fff0f7;padding:12px;border-radius:12px}
+[hidden]{display:none!important}
 </style>
 </head>
+
 <body>
-
 <div class="editor">
+
 <h1>🎀 Customize Your Surprise</h1>
-<p>Make this birthday experience special with your own photos and heartfelt words.</p>
+<p style="text-align:center">
+Create a beautiful birthday experience with your own photos and heartfelt messages.
+</p>
 
-<div id="authPanel" style="background:#fff0f7;padding:20px;border-radius:18px;margin:20px 0;">
-  <h2>🔐 Client Login</h2>
-  <p>Create an account or login to customize your surprise.</p>
+<div id="status">Connecting to Supabase...</div>
 
-  <label>Email Address</label>
-  <input type="email" id="clientEmail" placeholder="Enter your email" required>
+<!-- CLIENT LOGIN -->
 
-  <label>Password</label>
-  <input type="password" id="clientPassword" placeholder="Minimum 8 characters" minlength="8" required>
+<div id="authPanel">
+<h2>🔐 Client Login</h2>
 
-  <button type="button" id="signupBtn">Create Account 💗</button>
-  <button type="button" id="loginBtn">Login 🎀</button>
+<label>Email Address</label>
+<input type="email" id="clientEmail" placeholder="Enter your email">
 
-  <p id="authMessage" aria-live="polite"></p>
-  <button type="button" id="logoutBtn" hidden>Logout</button>
+<label>Password</label>
+<input type="password" id="clientPassword" minlength="8" placeholder="Minimum 8 characters">
+
+<button type="button" id="signupBtn">Create Account 💗</button>
+<button type="button" id="loginBtn">Login 🎀</button>
+<button type="button" id="logoutBtn" hidden>Logout</button>
+
+<div id="authMessage" aria-live="polite">
+Please create an account or login.
 </div>
-  
-<form id="customForm">
+</div>
+
+<!-- CUSTOMIZATION FORM -->
+
+<form id="customForm" hidden>
 
 <h2>💗 Birthday Details</h2>
 
 <label>Birthday Girl's Name</label>
-<input id="girlName" placeholder="Enter her name">
+<input id="girlName" maxlength="30" required placeholder="Enter her name">
 
 <label>Birthday Date</label>
-<input id="birthdayDate" type="date">
+<input id="birthdayDate" type="date" required>
 
 <h2>📸 Your Memories</h2>
 
-<div class="photo-box">
-<label>Memory Photo 1</label>
-<input type="file" accept="image/*" id="photo1">
-<img class="preview" id="preview1">
-<label>Photo Caption</label>
-<input id="caption1" placeholder="Write a sweet caption">
-</div>
-
-<div class="photo-box">
-<label>Memory Photo 2</label>
-<input type="file" accept="image/*" id="photo2">
-<img class="preview" id="preview2">
-<label>Photo Caption</label>
-<input id="caption2" placeholder="Write a sweet caption">
-</div>
-
-<div class="photo-box">
-<label>Memory Photo 3</label>
-<input type="file" accept="image/*" id="photo3">
-<img class="preview" id="preview3">
-<label>Photo Caption</label>
-<input id="caption3" placeholder="Write a sweet caption">
-</div>
-
-<div class="photo-box">
-<label>Memory Photo 4</label>
-<input type="file" accept="image/*" id="photo4">
-<img class="preview" id="preview4">
-<label>Photo Caption</label>
-<input id="caption4" placeholder="Write a sweet caption">
-</div>
+<div id="photoFields"></div>
 
 <h2>💌 Personal Messages</h2>
 
@@ -117,247 +120,364 @@ color:white;font-size:16px;font-weight:bold;margin-top:20px}
 <label>Gift Surprise Message</label>
 <textarea id="giftMessage" placeholder="Write your special surprise..."></textarea>
 
-<button type="submit">Save My Changes 💗</button>
-</form>
+<button type="submit" id="saveButton">Save My Changes 💗</button>
 
 <p class="note">
-Your text changes will be saved as a draft in this browser.
-Photo previews are temporary. Online saving and sharing across devices will be connected in the next step.
+Photos must be JPG, PNG or WEBP and under 5 MB each.
+Your changes are saved to your private online account.
 </p>
+
+</form>
 </div>
 
-<div id="connectionStatus" style="text-align:center;padding:12px;border-radius:12px;background:#fff0f7;color:#9b4773;">
-  Connecting to Supabase...
-</div>
+<!-- LIBRARIES -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase.js"></script>
 
 <script>
-  const status = document.getElementById("connectionStatus");
-
-  if (window.supabaseClient) {
-    status.textContent = "Supabase connected successfully! 💗";
-    status.style.color = "green";
-  } else {
-    status.textContent = "Connection failed. Please check settings.";
-    status.style.color = "red";
-  }
-</script>
-  
-<script>
-const fields = [
-"girlName","birthdayDate","caption1","caption2",
-"caption3","caption4","welcomeMessage","aboutMessage",
-"wishesMessage","letterMessage","giftMessage"
-];
-
-fields.forEach(id => {
-const saved = localStorage.getItem("birthday_" + id);
-if(saved !== null) document.getElementById(id).value = saved;
-});
-
-for(let i=1;i<=4;i++){
-const input=document.getElementById("photo"+i);
-const preview=document.getElementById("preview"+i);
-
-input.addEventListener("change",()=>{
-const file=input.files[0];
-if(!file)return;
-if(!file.type.startsWith("image/")){
-alert("Please select an image.");
-return;
-}
-const reader=new FileReader();
-reader.onload=()=>{
-preview.src=reader.result;
-preview.style.display="block";
-};
-reader.readAsDataURL(file);
-});
-}
-
-document.getElementById("customForm").addEventListener("submit",e=>{
-e.preventDefault();
-fields.forEach(id=>{
-localStorage.setItem(
-"birthday_"+id,
-document.getElementById(id).value
-);
-});
-alert("Your text draft has been saved! 🎀");
-});
-</script>
-
-<script>
-
 document.addEventListener("DOMContentLoaded", async () => {
-  const client = window.supabaseClient;
-  const form = document.getElementById("customForm");
-  const message = document.getElementById("authMessage");
-  const logout = document.getElementById("logoutBtn");
 
-  form.hidden = true;
+const client = window.supabaseClient;
+const status = document.getElementById("status");
+const authPanel = document.getElementById("authPanel");
+const form = document.getElementById("customForm");
+const authMessage = document.getElementById("authMessage");
+const saveButton = document.getElementById("saveButton");
 
-  async function loadBirthdayData(user) {
-    const { data, error } = await client
+if (!client) {
+  status.textContent = "Supabase connection failed. Check your settings.";
+  return;
+}
+
+status.textContent = "Supabase connected successfully! 💗";
+status.style.color = "green";
+
+// CREATE FOUR PHOTO SLOTS
+
+const photoFields = document.getElementById("photoFields");
+
+for (let i = 1; i <= 4; i++) {
+  const box = document.createElement("div");
+  box.className = "photo-box";
+
+  box.innerHTML = `
+    <label>Memory Photo ${i}</label>
+    <input type="file" accept="image/jpeg,image/png,image/webp" id="photo${i}">
+    <img class="preview" id="preview${i}" alt="Photo preview ${i}">
+    <label>Photo Caption</label>
+    <input id="caption${i}" maxlength="150" placeholder="Write a sweet caption">
+  `;
+
+  photoFields.appendChild(box);
+
+  document.getElementById("photo" + i)
+    .addEventListener("change", event => {
+      const file = event.target.files[0];
+      const preview = document.getElementById("preview" + i);
+
+      if (!file) return;
+
+      if (
+        !["image/jpeg","image/png","image/webp"].includes(file.type) ||
+        file.size > 5 * 1024 * 1024
+      ) {
+        alert("Choose a JPG, PNG or WEBP image under 5 MB.");
+        event.target.value = "";
+        return;
+      }
+
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = "block";
+    });
+}
+
+// LOAD SAVED DATA
+
+async function loadBirthdayData(user) {
+
+  authMessage.textContent = "Loading your saved details...";
+
+  const {data,error} = await client
+    .from("birthday_surprises")
+    .select("*")
+    .eq("user_id",user.id)
+    .maybeSingle();
+
+  if(error) {
+    authMessage.textContent = "Load failed: " + error.message;
+    return;
+  }
+
+  if(!data) {
+    authMessage.textContent = "Welcome! Create your birthday surprise. 💗";
+    return;
+  }
+
+  const fields = {
+    girlName:data.birthday_name,
+    birthdayDate:data.birthday_date,
+    welcomeMessage:data.welcome_message,
+    aboutMessage:data.about_message,
+    wishesMessage:data.wishes_message,
+    letterMessage:data.personal_letter,
+    giftMessage:data.gift_message
+  };
+
+  Object.entries(fields).forEach(([id,value]) => {
+    const element = document.getElementById(id);
+    if(element && value) element.value = value;
+  });
+
+  for(let i=1;i<=4;i++) {
+    const caption = data.captions?.["caption"+i];
+    if(caption) {
+      document.getElementById("caption"+i).value = caption;
+    }
+
+    const path = data.photos?.["photo"+i];
+
+    if(path) {
+      const {data:imageData,error:imageError} = await client.storage
+        .from("birthday-photos")
+        .createSignedUrl(path,3600);
+
+      if(!imageError && imageData) {
+        const preview = document.getElementById("preview"+i);
+        preview.src = imageData.signedUrl;
+        preview.style.display = "block";
+      }
+    }
+  }
+
+  authMessage.textContent = "Your saved details are loaded! 💗";
+}
+
+// SHOW LOGIN OR CUSTOMIZATION FORM
+
+async function updateSession(session) {
+
+  const loggedIn = !!session;
+
+  form.hidden = !loggedIn;
+  document.getElementById("logoutBtn").hidden = !loggedIn;
+
+  if(session) {
+    await loadBirthdayData(session.user);
+  } else {
+    authMessage.textContent = "Please login or create your account.";
+  }
+}
+
+// SIGNUP
+
+document.getElementById("signupBtn").onclick = async () => {
+
+  const email = document.getElementById("clientEmail").value.trim();
+  const password = document.getElementById("clientPassword").value;
+
+  if(!email || password.length < 8) {
+    authMessage.textContent = "Enter a valid email and password of at least 8 characters.";
+    return;
+  }
+
+  const {data,error} = await client.auth.signUp({
+    email,
+    password
+  });
+
+  if(error) {
+    authMessage.textContent = error.message;
+    return;
+  }
+
+  if(data.session) {
+    await updateSession(data.session);
+  } else {
+    authMessage.textContent =
+      "Account created! Please verify your email, then login. 💌";
+  }
+};
+
+// LOGIN
+
+document.getElementById("loginBtn").onclick = async () => {
+
+  const email = document.getElementById("clientEmail").value.trim();
+  const password = document.getElementById("clientPassword").value;
+
+  if(!email || !password) {
+    authMessage.textContent = "Enter your email and password.";
+    return;
+  }
+
+  const {data,error} = await client.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if(error) {
+    authMessage.textContent = error.message;
+    return;
+  }
+
+  await updateSession(data.session);
+};
+
+// LOGOUT
+
+document.getElementById("logoutBtn").onclick = async () => {
+
+  const {error} = await client.auth.signOut();
+
+  if(error) {
+    authMessage.textContent = error.message;
+    return;
+  }
+
+  await updateSession(null);
+};
+
+// SAVE EVERYTHING ONLINE
+
+form.addEventListener("submit", async event => {
+
+  event.preventDefault();
+
+  const {data:sessionData,error:sessionError} =
+    await client.auth.getSession();
+
+  if(sessionError || !sessionData.session) {
+    authMessage.textContent = "Please login again.";
+    return;
+  }
+
+  const user = sessionData.session.user;
+
+  const birthdayName =
+    document.getElementById("girlName").value.trim();
+
+  const birthdayDate =
+    document.getElementById("birthdayDate").value;
+
+  if(!birthdayName || !birthdayDate) {
+    authMessage.textContent = "Enter the name and birthday date.";
+    return;
+  }
+
+  saveButton.disabled = true;
+  saveButton.textContent = "Saving... 💗";
+  authMessage.textContent = "Saving your changes...";
+
+  try {
+
+    const {data:oldData,error:oldError} = await client
       .from("birthday_surprises")
-      .select("*")
-      .eq("user_id", user.id)
+      .select("photos")
+      .eq("user_id",user.id)
       .maybeSingle();
 
-    if (error) {
-      message.textContent = "Could not load saved details: " + error.message;
-      return;
+    if(oldError) throw oldError;
+
+    const photos = oldData?.photos || {};
+
+    // UPLOAD NEW PHOTOS
+
+    for(let i=1;i<=4;i++) {
+
+      const file = document.getElementById("photo"+i).files[0];
+
+      if(!file) continue;
+
+      if(
+        !["image/jpeg","image/png","image/webp"].includes(file.type) ||
+        file.size > 5 * 1024 * 1024
+      ) {
+        throw new Error("Photo "+i+" must be JPG, PNG or WEBP under 5 MB.");
+      }
+
+      const extension =
+        file.type === "image/png" ? "png" :
+        file.type === "image/webp" ? "webp" : "jpg";
+
+      const path = user.id + "/memory-" + i + "-" +
+        Date.now() + "." + extension;
+
+      const {error:uploadError} = await client.storage
+        .from("birthday-photos")
+        .upload(path,file,{
+          contentType:file.type,
+          upsert:false
+        });
+
+      if(uploadError) throw uploadError;
+
+      photos["photo"+i] = path;
     }
 
-    if (!data) return;
+    const captions = {};
 
-    const values = {
-      girlName: data.birthday_name,
-      birthdayDate: data.birthday_date,
-      welcomeMessage: data.welcome_message,
-      aboutMessage: data.about_message,
-      wishesMessage: data.wishes_message,
-      letterMessage: data.personal_letter,
-      giftMessage: data.gift_message,
-      caption1: data.captions?.caption1,
-      caption2: data.captions?.caption2,
-      caption3: data.captions?.caption3,
-      caption4: data.captions?.caption4
-    };
-
-    Object.entries(values).forEach(([id, value]) => {
-      const field = document.getElementById(id);
-      if (field && value) field.value = value;
-    });
-
-    message.textContent = "Your saved details are loaded! 💗";
-  }
-
-  async function updateSession(session) {
-    const loggedIn = !!session;
-
-    form.hidden = !loggedIn;
-    logout.hidden = !loggedIn;
-
-    if (session) {
-      await loadBirthdayData(session.user);
-    } else {
-      message.textContent = "Please login or create your account.";
-    }
-  }
-
-  document.getElementById("signupBtn").onclick = async () => {
-    const email = document.getElementById("clientEmail").value.trim();
-    const password = document.getElementById("clientPassword").value;
-
-    if (!email || password.length < 8) {
-      message.textContent = "Enter a valid email and password of at least 8 characters.";
-      return;
-    }
-
-    const { data, error } = await client.auth.signUp({
-      email,
-      password
-    });
-
-    message.textContent = error
-      ? error.message
-      : data.session
-        ? "Account created successfully! 💗"
-        : "Account created! Verify your email, then login. 💌";
-
-    if (data.session) await updateSession(data.session);
-  };
-
-  document.getElementById("loginBtn").onclick = async () => {
-    const email = document.getElementById("clientEmail").value.trim();
-    const password = document.getElementById("clientPassword").value;
-
-    const { data, error } = await client.auth.signInWithPassword({
-      email,
-      password
-    });
-
-    if (error) {
-      message.textContent = error.message;
-      return;
-    }
-
-    await updateSession(data.session);
-  };
-
-  logout.onclick = async () => {
-    const { error } = await client.auth.signOut();
-    message.textContent = error
-      ? error.message
-      : "Logged out successfully.";
-  };
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const { data: sessionData } = await client.auth.getSession();
-    const user = sessionData.session?.user;
-
-    if (!user) {
-      message.textContent = "Please login first.";
-      return;
-    }
-
-    const getValue = id =>
-      document.getElementById(id).value.trim();
-
-    const birthdayDate = getValue("birthdayDate");
-
-    if (!getValue("girlName") || !birthdayDate) {
-      message.textContent = "Please enter the birthday name and date.";
-      return;
+    for(let i=1;i<=4;i++) {
+      captions["caption"+i] =
+        document.getElementById("caption"+i).value.trim();
     }
 
     const birthdayData = {
-      slug: "client-" + user.id,
-      user_id: user.id,
-      birthday_name: getValue("girlName"),
-      birthday_date: birthdayDate,
-      welcome_message: getValue("welcomeMessage"),
-      about_message: getValue("aboutMessage"),
-      wishes_message: getValue("wishesMessage"),
-      personal_letter: getValue("letterMessage"),
-      gift_message: getValue("giftMessage"),
-      captions: {
-        caption1: getValue("caption1"),
-        caption2: getValue("caption2"),
-        caption3: getValue("caption3"),
-        caption4: getValue("caption4")
-      },
-      updated_at: new Date().toISOString()
+      slug:"client-"+user.id,
+      user_id:user.id,
+      birthday_name:birthdayName,
+      birthday_date:birthdayDate,
+      welcome_message:document.getElementById("welcomeMessage").value.trim(),
+      about_message:document.getElementById("aboutMessage").value.trim(),
+      wishes_message:document.getElementById("wishesMessage").value.trim(),
+      personal_letter:document.getElementById("letterMessage").value.trim(),
+      gift_message:document.getElementById("giftMessage").value.trim(),
+      captions:captions,
+      photos:photos,
+      updated_at:new Date().toISOString()
     };
 
-    message.textContent = "Saving your changes... 💗";
-
-    const { error } = await client
+    const {error:saveError} = await client
       .from("birthday_surprises")
-      .upsert(birthdayData, { onConflict: "slug" });
+      .upsert(birthdayData,{onConflict:"slug"});
 
-    message.textContent = error
-      ? "Save failed: " + error.message
-      : "All your changes saved online! 🎀";
-  });
+    if(saveError) throw saveError;
 
-  const { data } = await client.auth.getSession();
-  await updateSession(data.session);
+    // CLEAR FILE INPUTS AFTER SUCCESS
 
-  client.auth.onAuthStateChange((event, session) => {
-    if (event === "SIGNED_IN" || event === "SIGNED_OUT") {
-      updateSession(session);
+    for(let i=1;i<=4;i++) {
+      document.getElementById("photo"+i).value = "";
     }
-  });
+
+    authMessage.textContent =
+      "All your changes and photos saved online! 🎀";
+
+  } catch(error) {
+
+    authMessage.textContent =
+      "Save failed: " + error.message;
+
+  } finally {
+
+    saveButton.disabled = false;
+    saveButton.textContent = "Save My Changes 💗";
+  }
+
 });
-        
+
+// RESTORE EXISTING SESSION
+
+const {data:sessionData,error:sessionError} =
+  await client.auth.getSession();
+
+if(sessionError) {
+  authMessage.textContent = sessionError.message;
+} else {
+  await updateSession(sessionData.session);
+}
+
+});
 </script>
-  
+
 </body>
-  </html>
-  
+</html>
