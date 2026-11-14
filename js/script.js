@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
 
     // =================================
@@ -50,9 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (dateString) {
+
             const parts = dateString.split("-").map(Number);
 
             if (parts.length === 3 && parts.every(Number.isFinite)) {
+
                 const today = new Date();
 
                 let nextBirthday = new Date(
@@ -163,7 +166,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!isPublicPage) return;
 
-        // Hide customization and setup from girlfriend's link
         if (customizeLink) customizeLink.hidden = true;
 
         if (birthdayForm) {
@@ -192,26 +194,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Load name and birthday date
             setBirthday(data.birthday_name, data.birthday_date);
 
-            // Load editable messages
             setText("welcomeMessage", data.welcome_message);
             setText("aboutMessage", data.about_message);
             setText("wishesMessage", data.wishes_message);
             setText("giftText", data.gift_message);
 
-            // Load personal letter
             const letter = document.getElementById("letterMessage");
 
             if (letter && data.personal_letter) {
                 letter.textContent = data.personal_letter;
             }
 
-            // Load uploaded photos
+            // LOAD PHOTOS AND THEIR MATCHING CAPTIONS
             await loadMemoryPhotos(data.photos, data.captions);
 
-            // Start the birthday journey
             showPage("cakePage");
 
         } catch (error) {
@@ -263,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =================================
-    // 7. CLIENT PHOTO GALLERY
+    // 7. PHOTO GALLERY WITH CAPTIONS
     // =================================
 
     async function loadMemoryPhotos(photos, captions) {
@@ -273,7 +271,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!grid || !photos || typeof photos !== "object") return;
 
         const entries = Object.entries(photos)
-            .filter(([, path]) => typeof path === "string" && path.trim());
+            .filter(([, path]) =>
+                typeof path === "string" && path.trim()
+            )
+            .sort(([keyA], [keyB]) =>
+                Number(keyA.replace("photo", "")) -
+                Number(keyB.replace("photo", ""))
+            );
 
         if (!entries.length) return;
 
@@ -292,6 +296,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 continue;
             }
 
+            // MATCH photo1 WITH caption1, photo2 WITH caption2
+            const captionKey = key.replace("photo", "caption");
+
+            const captionText =
+                typeof captions?.[captionKey] === "string"
+                    ? captions[captionKey].trim()
+                    : "";
+
             const item = document.createElement("div");
             item.className = "memory-item";
 
@@ -301,13 +313,18 @@ document.addEventListener("DOMContentLoaded", () => {
             image.alt = "Birthday memory";
             image.loading = "lazy";
 
-            const caption = document.createElement("small");
-            caption.textContent =
-                captions && captions[key]
-                    ? captions[key]
-                    : "A beautiful memory 💗";
+            item.appendChild(image);
 
-            item.append(image, caption);
+            // Show only the actual client-written caption
+            if (captionText) {
+
+                const caption = document.createElement("small");
+                caption.className = "memory-caption";
+                caption.textContent = captionText;
+
+                item.appendChild(caption);
+            }
+
             fragment.appendChild(item);
         }
 
@@ -445,3 +462,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+                    
